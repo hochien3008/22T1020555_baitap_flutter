@@ -212,7 +212,7 @@ class _MyProductsState extends State<MyProducts> {
           ),
           // Product Info
           Expanded(
-            flex: 2,
+            flex: 3,
             child: Padding(
               padding: EdgeInsets.all(12),
               child: Column(
@@ -251,7 +251,7 @@ class _MyProductsState extends State<MyProducts> {
                       Text(
                         '\$${product.price.toStringAsFixed(2)}',
                         style: TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: FontWeight.bold,
                           color: Color(0xFF6B46C1), // Purple/blue color
                         ),
