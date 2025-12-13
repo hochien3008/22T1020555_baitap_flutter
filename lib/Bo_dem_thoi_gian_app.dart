@@ -9,17 +9,22 @@ class BoDemThoiGianApp extends StatefulWidget {
 }
 
 class _BoDemThoiGianAppState extends State<BoDemThoiGianApp> {
+  final _controller = TextEditingController(text: '100');
   int _value = 100;
   bool _isRunning = false;
   Timer? _timer;
+
   @override
   void dispose() {
     _timer?.cancel();
+    _controller.dispose();
     super.dispose();
   }
 
   void _startTimer() {
-    if (_value <= 0) return;
+    final parsed = int.tryParse(_controller.text);
+    if (parsed == null || parsed <= 0) return; // bỏ qua nếu nhập không hợp lệ
+    setState(() => _value = parsed);
 
     _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -57,7 +62,7 @@ class _BoDemThoiGianAppState extends State<BoDemThoiGianApp> {
       appBar: AppBar(
         title: Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [
+          children: const [
             Icon(Icons.timelapse),
             SizedBox(width: 10),
             Text(
@@ -74,74 +79,85 @@ class _BoDemThoiGianAppState extends State<BoDemThoiGianApp> {
 
   Widget myBody() {
     return Container(
-      decoration: BoxDecoration(color: Colors.white),
+      decoration: const BoxDecoration(color: Colors.white),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(
-            'Nhập số giây cần đếm ',
+          const Text(
+            'Nhập số giây cần đếm',
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Container(
-            height: 40,
-            width: 400,
+            height: 50,
+            width: 200,
+            padding: const EdgeInsets.symmetric(horizontal: 12),
             decoration: BoxDecoration(
               border: Border.all(width: 1, color: Colors.grey),
+              borderRadius: BorderRadius.circular(6),
             ),
-            child: Center(child: Text("100")),
+            child: TextField(
+              controller: _controller,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                hintText: 'Nhập số giây',
+              ),
+              textAlign: TextAlign.center,
+            ),
           ),
           Text(
             '$_value',
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 50,
               fontWeight: FontWeight.bold,
               color: Colors.red,
             ),
           ),
-          SizedBox(height: 20),
+          const SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
                 onPressed: _toggleTimer,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: _isRunning ? Colors.orange : Colors.grey,
+                ),
                 child: Row(
                   children: [
                     Icon(
                       _isRunning ? Icons.pause : Icons.play_arrow,
                       color: Colors.white,
                     ),
-                    SizedBox(width: 10),
+                    const SizedBox(width: 10),
                     Text(
                       _isRunning ? 'Dừng' : 'Bắt đầu',
-                      style: TextStyle(color: Colors.white),
+                      style: const TextStyle(color: Colors.white),
                     ),
                   ],
                 ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: _isRunning ? Colors.orange : Colors.grey,
-                ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
               ElevatedButton(
                 onPressed: () {
                   _stopTimer();
                   setState(() {
                     _value = 100;
+                    _controller.text = '100';
                   });
                 },
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.grey[800],
+                ),
                 child: Row(
-                  children: [
+                  children: const [
                     Icon(Icons.replay_outlined, color: Colors.white),
                     SizedBox(width: 10),
                     Text('Đặt lại', style: TextStyle(color: Colors.white)),
                   ],
                 ),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.grey[800],
-                ),
               ),
-              SizedBox(width: 10),
+              const SizedBox(width: 10),
             ],
           ),
         ],

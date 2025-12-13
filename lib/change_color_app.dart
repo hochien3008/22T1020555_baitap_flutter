@@ -75,13 +75,19 @@ class _ChangeColorAppState extends State<ChangeColorApp> {
               color: Colors.white,
             ),
           ),
+          SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
                 onPressed: _changeColor,
-                child: Text('Change Color'),
+                child: Text(
+                  'Change Color',
+                  style: TextStyle(color: Colors.black),
+                ),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
               ),
+              SizedBox(width: 10),
               ElevatedButton(
                 onPressed: () {
                   setState(() {
@@ -89,7 +95,8 @@ class _ChangeColorAppState extends State<ChangeColorApp> {
                     bgColorString = 'Tím';
                   });
                 },
-                child: Text("dặt lại"),
+                child: Text("Đặt lại", style: TextStyle(color: Colors.black)),
+                style: ElevatedButton.styleFrom(backgroundColor: Colors.white),
               ),
             ],
           ),

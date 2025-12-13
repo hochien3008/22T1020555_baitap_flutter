@@ -1,5 +1,7 @@
-import 'package:hoctap1/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:hoctap1/login.dart';
+import 'package:hoctap1/main.dart';
+import 'package:hoctap1/services/auth_service.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -115,7 +117,13 @@ class _RegisterPageState extends State<RegisterPage> {
 
                 if (result != null) {
                   showMessage(context, "Đăng ký thành công!");
-                  Navigator.pop(context); // quay về trang login
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => const MainScreen(initialIndex: 9),
+                    ),
+                    (route) => false,
+                  ); // quay về trang login kèm menu
                 } else {
                   showMessage(context, "Đăng ký thất bại!");
                 }
